@@ -1,5 +1,5 @@
 import { GetServerSideProps } from "next";
-import BlogPost from "@/components/BlogPost"; // Import BlogPost component
+import BlogPost from "../components/BlogPost"; // Import BlogPost component
 
 interface Blog {
     id: number;
