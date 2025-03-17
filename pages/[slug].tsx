@@ -20,7 +20,11 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     const slug = params?.slug as string;
 
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/${slug}`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/${slug}`, {
+            headers: {
+              "x-api-key": process.env.API_KEY || "my-hardcoded-key-2025",
+            },
+          });
 
         if (!res.ok) throw new Error("Failed to fetch blog details");
 
@@ -30,7 +34,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
             props: { blog },
         };
     } catch (error) {
-        console.error("Error fetching blog:", error);
+        console.error("Error fetching blog:", error.message);
         return {
             props: { blog: null }, // Return null if fetching fails
         };

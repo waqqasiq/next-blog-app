@@ -11,7 +11,11 @@ const Home = ({ blogs }: { blogs: any[] }) => {
 
 export const getServerSideProps: GetServerSideProps = async () => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs`, {
+      headers: {
+        "x-api-key": process.env.API_KEY || "my-hardcoded-key-2025",
+      },
+    });
 
     if (!res.ok) throw new Error("Failed to fetch blogs");
 

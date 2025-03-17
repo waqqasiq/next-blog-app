@@ -1,8 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import authMiddleware from "../../../middleware/auth";
 
 const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  if (!authMiddleware(req, res)) return;
+
   const { slug } = req.query;
 
   try {
