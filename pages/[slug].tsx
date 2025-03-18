@@ -38,7 +38,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
             props: { blog },
         };
     } catch (error) {
-        console.error("Error fetching blog:", error.message);
+        console.error("Error fetching blog:", error);
         return {
             notFound: true, // Return 404 if blog not found
         };

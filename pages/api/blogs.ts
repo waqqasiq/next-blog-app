@@ -16,6 +16,16 @@ const getFilteredQuery = (query: any) => {
         queryString += `&filters[date][$lte]=${encodeURIComponent(query.endDate)}`;
     }
 
+    queryString += '&pagination[pageSize]=3';
+
+    if (query.page) {
+        queryString += `&pagination[page]=${encodeURIComponent(query.page)}`;
+    }
+
+    if (query.search) {
+        queryString += `&filters[content][$containsi]=${encodeURIComponent(query.search)}`;
+    }
+
     return queryString;
 };
 
@@ -23,17 +33,10 @@ const fetchBlogsFromStrapi = async (queryString: string) => {
     const response = await fetch(`${STRAPI_URL}/api/blogs?${queryString}`);
     if (!response.ok) throw new Error(`Failed to fetch blogs: ${response.statusText}`);
     const data = await response.json();
-    return data.data;
+    return data;
 };
 
-const searchBlogs = (blogs: any[], keyword: string) => {
-    const lowerKeyword = keyword.toLowerCase();
-    return blogs.filter(
-        (blog) =>
-            blog.title.toLowerCase().includes(lowerKeyword) ||
-            blog.content.toLowerCase().includes(lowerKeyword)
-    );
-};
+
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
@@ -42,10 +45,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         const queryString = getFilteredQuery(req.query);
 
         let blogs = await fetchBlogsFromStrapi(queryString);
-
-        if (req.query.search) {
-            blogs = searchBlogs(blogs, req.query.search as string);
-        }
 
         return res.status(200).json(blogs);
     } catch (error) {
