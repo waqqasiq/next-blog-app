@@ -1,40 +1,126 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Next.js Blog App - DevLog
 
-## Getting Started
+DevLog is a **Next.js 14** blog application powered by **Strapi 5 CMS**, featuring **server-side rendering, API integration, authentication middleware, search, and pagination**.
 
-First, run the development server:
+## Features
+- Fetches blog posts from **Strapi 5 CMS**
+- Implements **API authentication middleware**
+- Supports **search functionality**
+- Includes **pagination for blog posts**
+- Fully responsive UI built with **Tailwind CSS**
+- Deployed on **Vercel**
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## Getting Started - Running Locally
+### 1. Clone the Repository
+```sh
+git clone https://github.com/waqqasiq/next-blog-app.git
+cd next-blog-app
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Install Dependencies
+```sh
+npm install
+```
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+### 3. Set Up Environment Variables
+Create a `.env.local` file in the root directory and add the following:
+```sh
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
+NEXT_PUBLIC_STRAPI_URL=https://funny-light-502e0aff89.strapiapp.com
+API_KEY=my-hardcoded-key-2025
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+### 4. Start the Development Server
+```sh
+npm run dev
+```
+Your app will be available at **[http://localhost:3000](http://localhost:3000)**.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Middleware Logic (Authentication)
+This project uses a **custom authentication middleware** to secure API routes.
 
-## Learn More
+### File: `middleware/auth.ts`
+```ts
+import { NextApiRequest, NextApiResponse } from "next";
 
-To learn more about Next.js, take a look at the following resources:
+const API_KEY = process.env.API_KEY || "my-hardcoded-key-2025";
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+const authMiddleware = (req: NextApiRequest, res: NextApiResponse) => {
+    const apiKey = req.headers["x-api-key"];
+    
+    if (!apiKey || apiKey !== API_KEY) {
+        res.status(401).json({ error: "Unauthorized: Invalid API key" });
+        return false;
+    }
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+    return true;
+};
 
-## Deploy on Vercel
+export default authMiddleware;
+```
+- Applies to `/api/blogs.ts` and `/api/comments.ts`
+- Requires `x-api-key` header in requests
+- Returns `401 Unauthorized` if key is missing or incorrect
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## API Endpoints & Integration
+### 1. Fetch Blog Posts
+**File:** `/pages/api/blogs.ts`
+```sh
+GET /api/blogs?page=1&search=next.js
+Headers: { "x-api-key": "my-hardcoded-key-2025" }
+```
+- Supports **pagination**
+- Supports **search filtering**
+
+### 2. Fetch a Single Blog Post
+```sh
+GET /api/blogs/[slug]
+Headers: { "x-api-key": "my-hardcoded-key-2025" }
+```
+
+### 3. Comments API (CRUD)
+#### Add a Comment
+```sh
+POST /api/comments?blogId=123
+Headers: { "x-api-key": "my-hardcoded-key-2025" }
+Body:
+{
+  "text": "Great post!",
+  "author": "Alice"
+}
+```
+
+#### Edit a Comment
+```sh
+PUT /api/comments/[commentId]
+Headers: { "x-api-key": "my-hardcoded-key-2025" }
+Body:
+{
+  "text": "Updated comment text",
+  "author": "Updated author"
+}
+```
+
+#### Delete a Comment
+```sh
+DELETE /api/comments/[commentId]
+Headers: { "x-api-key": "my-hardcoded-key-2025" }
+```
+
+---
+
+## Deployment
+The app is deployed on **Vercel**. You can access it at:
+[https://next-blog-app-devlog.vercel.app](https://next-blog-app-devlog.vercel.app)
+
+---
+
+## Tech Stack
+- **Frontend:** Next.js 14, TypeScript, Tailwind CSS
+- **Backend (CMS):** Strapi 5 (hosted on Strapi Cloud)
