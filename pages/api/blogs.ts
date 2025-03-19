@@ -16,7 +16,7 @@ const getFilteredQuery = (query: any) => {
         queryString += `&filters[date][$lte]=${encodeURIComponent(query.endDate)}`;
     }
 
-    queryString += '&pagination[pageSize]=3';
+    queryString += '&pagination[pageSize]=6'; // hardcoded page size = 6
 
     if (query.page) {
         queryString += `&pagination[page]=${encodeURIComponent(query.page)}`;
