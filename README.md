@@ -85,6 +85,14 @@ Headers: { "x-api-key": "my-hardcoded-key-2025" }
 ```
 
 ### 3. Comments API (CRUD)
+#### Fetch Comments for a Blog Post
+```sh
+GET /api/comments?blogId=123
+Headers: { "x-api-key": "my-hardcoded-key-2025" }
+```
+- Returns all comments for the specified `blogId`
+- If no comments exist, returns an empty array
+
 #### Add a Comment
 ```sh
 POST /api/comments?blogId=123
