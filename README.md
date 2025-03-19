@@ -131,4 +131,4 @@ The app is deployed on **Vercel**. You can access it at:
 
 ## Tech Stack
 - **Frontend:** Next.js 14, TypeScript, Tailwind CSS
-- **Backend (CMS):** Strapi 5 (hosted on Strapi Cloud)
+- **Backend (CMS):** Strapi 5 (hosted on [Strapi Cloud](https://funny-light-502e0aff89.strapiapp.com))
