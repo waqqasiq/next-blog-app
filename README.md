@@ -12,6 +12,23 @@ DevLog is a **Next.js 14** blog application powered by **Strapi 5 CMS**, featuri
 
 ---
 
+## Prerequisites
+Before running this project, make sure you have the following installed on your system:
+
+- **Node.js 18.20.7** (Recommended)
+- **npm 10.8.2** or later
+- **Git** for cloning the repository
+
+### Project Dependencies
+This project is built with the following dependencies:
+- **Next.js 14.2.24**
+- **React 18**
+- **Lodash**
+- **Tailwind CSS 3.4.1**
+- **TypeScript 5**
+
+---
+
 ## Getting Started - Running Locally
 ### 1. Clone the Repository
 ```sh
