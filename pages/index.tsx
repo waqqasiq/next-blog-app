@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
+import Head from "next/head";
 import BlogList from "../components/BlogList";
 import { Blog } from "../components/BlogList";
 
@@ -57,20 +58,29 @@ const Home = ({ blogs }: {
             setFilteredBlogs(data);
         } catch (error) {
             console.error("Error fetching search results:", error);
-            setFilteredBlogs({ data: [] }); 
+            setFilteredBlogs({ data: [] });
         }
     };
 
 
     return (
         <div className="max-w-6xl mx-auto p-6">
+            <Head>
+                <title>DevLog - Latest Tech Blogs</title>
+                <meta name="description" content="Stay updated with the latest frontend, Next.js, and TypeScript blogs on DevLog." />
+                <meta name="keywords" content="Next.js, React, TypeScript, Frontend, DevLog, Blogging" />
+                <meta name="author" content="DevLog Team" />
+                <meta property="og:title" content="DevLog - Latest Frontend & Next.js Blogs" />
+                <meta property="og:description" content="Stay updated with the latest frontend, Next.js, and TypeScript blogs on DevLog." />
+                <meta property="og:type" content="website" />
+            </Head>
             <div className="flex justify-center my-6">
                 <input
                     type="text"
                     placeholder="Search blog posts..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    onKeyDown={(e) => e.key === "Enter" && handleSearch()} 
+                    onKeyDown={(e) => e.key === "Enter" && handleSearch()}
                     className="p-3 w-80 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500"
                 />
                 <button
