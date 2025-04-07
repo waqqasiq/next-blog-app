@@ -45,7 +45,7 @@ npm install
 Create a `.env.local` file in the root directory and add the following:
 ```sh
 NEXT_PUBLIC_BASE_URL=http://localhost:3000
-NEXT_PUBLIC_STRAPI_URL=https://funny-light-502e0aff89.strapiapp.com
+NEXT_PUBLIC_STRAPI_URL=https://unwavering-power-a41ed9d21b.strapiapp.com
 API_KEY=my-hardcoded-key-2025
 ```
 
