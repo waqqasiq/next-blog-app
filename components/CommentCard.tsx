@@ -8,18 +8,11 @@ interface CommentCardProps {
 }
 
 const formatDate = (dateString: string) => {
-  const date = new Date(dateString);
-  const parts = new Intl.DateTimeFormat("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-  }).formatToParts(date);
-
-  const get = (type: string) => parts.find(p => p.type === type)?.value || "";
-
-  return `${get("month")} ${get("day")}, ${get("year")}, ${get("hour")}:${get("minute")} ${get("dayPeriod")}`;
+    return new Intl.DateTimeFormat("en-US", {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+    }).format(new Date(dateString));
 };
 
 const CommentCard: React.FC<CommentCardProps> = ({ author, text, createdAt }) => {
