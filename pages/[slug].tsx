@@ -2,7 +2,8 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import BlogPost from "../components/BlogPost";
-import CommentCard from "../components/CommentCard";
+import CommentList from "../components/CommentList";
+import CommentForm from "../components/CommentForm";
 
 interface Blog {
     id: number;
@@ -23,7 +24,6 @@ interface Comment {
 const BlogDetailsPage = ({ blog }: { blog: Blog | null }) => {
     const [comments, setComments] = useState<Comment[]>([]);
     const [loading, setLoading] = useState(true);
-    const [showAllComments, setShowAllComments] = useState(false);
 
 
     useEffect(() => {
@@ -52,7 +52,7 @@ const BlogDetailsPage = ({ blog }: { blog: Blog | null }) => {
     if (!blog) return <p className="text-center text-red-500">Blog not found.</p>;
 
     return (
-        <div className="max-w-4xl mx-auto px-6 py-12">
+        <div className="max-w-4xl mx-auto px-6 py-12 space-y-12">
             <Head>
                 <title>{blog.title} - DevLog</title>
                 <meta name="description" content={blog.content.substring(0, 160)} />
@@ -63,40 +63,14 @@ const BlogDetailsPage = ({ blog }: { blog: Blog | null }) => {
             </Head>
 
             <BlogPost blog={blog} />
-
-            {/* 🔽 Comments Section */}
-            <div className="mt-12">
-                <h2 className="text-xl font-semibold mb-4">Comments</h2>
-                {loading ? (
-                    <p>Loading comments...</p>
-                ) : comments.length > 0 ? (
-                    <>
-                        <ul className="space-y-4">
-                            {(showAllComments ? comments : comments.slice(0, 3)).map((comment) => (
-                                <CommentCard
-                                    key={comment.id}
-                                    author={comment.author}
-                                    text={comment.text}
-                                    createdAt={comment.createdAt}
-                                />
-                            ))}
-
-                        </ul>
-                        {comments.length > 3 && (
-                            <button
-                                onClick={() => setShowAllComments(!showAllComments)}
-                                className="mt-4 text-blue-600 font-semibold hover:underline"
-                            >
-                                {showAllComments ? "Show less" : "See all comments"}
-                            </button>
-                        )}
-                    </>
-
-
-                ) : (
-                    <p className="text-gray-500">No comments yet.</p>
-                )}
-            </div>
+            
+            {!loading && (
+                <>
+                    <CommentList comments={comments} />
+                    <CommentForm blogId={blog.id} onAddComment={(newComment) => setComments([...comments, newComment])} />
+                </>
+            )}
+            
         </div>
     );
 };
