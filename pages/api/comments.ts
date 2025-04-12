@@ -2,7 +2,14 @@ import { NextApiRequest, NextApiResponse } from "next";
 import authMiddleware from "../../middleware/auth";
 
 // in-memory comments storage
-export const commentsStore: { [blogId: string]: { id: number; text: string; author: string }[] } = {};
+export const commentsStore: {
+    [blogId: string]: {
+      id: number;
+      text: string;
+      author: string;
+      createdAt: string;
+    }[];
+  } = {};
 
 const handler = (req: NextApiRequest, res: NextApiResponse) => {
     if (!authMiddleware(req, res)) return;
@@ -32,7 +39,14 @@ const addComment = (res: NextApiResponse, blogId: string, body: any) => {
         return res.status(400).json({ error: "blogId, text, and author are required" });
     }
 
-    const newComment = { id: Date.now(), text: body.text, author: body.author };
+    // const newComment = { id: Date.now(), text: body.text, author: body.author };
+    const newComment = {
+        id: Date.now(),
+        text: body.text,
+        author: body.author,
+        createdAt: new Date().toISOString(),
+      };
+      
 
     if (!commentsStore[blogId]) {
         commentsStore[blogId] = [];
