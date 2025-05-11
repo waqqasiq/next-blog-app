@@ -45,7 +45,7 @@ npm install
 Create a `.env.local` file in the root directory and add the following:
 ```sh
 NEXT_PUBLIC_BASE_URL=http://localhost:3000
-NEXT_PUBLIC_STRAPI_URL=https://unwavering-power-a41ed9d21b.strapiapp.com
+NEXT_PUBLIC_STRAPI_URL=https://unwavering-chocolate-d9bd273d11.strapiapp.com
 API_KEY=my-hardcoded-key-2025
 ```
 
@@ -148,4 +148,4 @@ The app is deployed on **Vercel**. You can access it at:
 
 ## Tech Stack
 - **Frontend:** Next.js 14, TypeScript, Tailwind CSS
-- **Backend (CMS):** Strapi 5 (hosted on [Strapi Cloud](https://unwavering-power-a41ed9d21b.strapiapp.com))
+- **Backend (CMS):** Strapi 5 (hosted on [Strapi Cloud](https://unwavering-chocolate-d9bd273d11.strapiapp.com))
